@@ -1,33 +1,31 @@
-import pandas as pd
 import random as rn
 import ast
 
 
-def get_Jens_data(df:pd.DataFrame) -> pd.DataFrame:
-    result = df.loc[df['Name'] == 'Jen', ['Name', 'Age']]
-    return(result)
-
-def create_column(col_name, col_values, df):
-    df[col_name] = col_values
-    return df
-
 def create_txt_files(location):
+    """
+    This function generates the folders in which KINO simulation results can be stored.
+
+        Args:
+            location (str): File location.
+    """
     with open(location, 'w') as file:
         file.writelines('[]')
     print(f"File created in location: {location}")
 
-"""
-This function simulates KINO games and returns the value of winnings assuming each bet is worth 1.
-The value of returns for each strategy is given here: https://www.opap.gr/en/kino-pay-table.
 
-    Args:
-        strategy (int): Number of guesses the user will make before each draw (between 1 and 12).
-        attempts (int): How many game simulations the function will run before calculating net profits.
-
-    Returns:
-        float: The net profit/loss after simulations have finished.
-"""
 def draw_outcome(strategy, attempts):
+    """
+    This function simulates KINO games and returns the value of winnings assuming each bet is worth 1.
+    The value of returns for each strategy is given here: https://www.opap.gr/en/kino-pay-table.
+
+        Args:
+            strategy (int): Number of guesses the user will make before each draw (between 1 and 12).
+            attempts (int): How many game simulations the function will run before calculating net profits.
+
+        Returns:
+            float: The net profit/loss after simulations have finished.
+    """
     num_found = []
     p_n_l = 0
     if strategy == 1:
@@ -406,7 +404,17 @@ def draw_outcome(strategy, attempts):
         print("Invalid strategy")
     return p_n_l, num_found
 
-def append_results(datafile):
+
+def read_results(datafile) -> list[float]:
+    """
+    This function reads previous results from the specified datafile.
+
+        Args:
+            datafile (str): The datafile containing previous results for a given strategy.
+
+        Returns:
+            list of float: A list of previous results as floats.
+    """
     with open(datafile, 'r') as filepath:
         for line in filepath:
             stripped_line = line.strip()
@@ -422,6 +430,15 @@ def append_results(datafile):
             print(f"Skipping invalid line: {stripped_line}")
     return prev_results
 
+
 def write_results(datafile, results):
+    """
+    This function saves results in their corresponding datafile.
+
+        Args:
+            datafile (str): The datafile containing previous results for a given strategy.
+            results (str): The data to be saved.
+
+    """
     with open(datafile, 'w') as filepath:
         filepath.write(str(results))
