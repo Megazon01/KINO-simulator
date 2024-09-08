@@ -1,0 +1,2 @@
+Each file contains results from previous simulations for each strategy in the form of lists.
+If the user wants to erase these results and begin the analysis from scratch, they need to delete the numbers in the lists and leave an empty list '[]'.
